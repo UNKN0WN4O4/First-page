@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="dark light" />
 
-  <!-- Performance hints: preconnect/dns-prefetch to critical domains -->
+  
   <link rel="preconnect" href="https://cdn.tailwindcss.com">
   <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
 
@@ -16,8 +16,14 @@
   <link rel="dns-prefetch" href="//search.yahoo.com">
   <link rel="dns-prefetch" href="//www.perplexity.ai">
   <link rel="dns-prefetch" href="//unkn0wn4o4.github.io">
+  <link rel="dns-prefetch" href="//stackoverflow.com">
+  <link rel="dns-prefetch" href="//github.com">
+  <link rel="dns-prefetch" href="//developer.mozilla.org">
+  <link rel="dns-prefetch" href="//www.npmjs.com">
+  <link rel="dns-prefetch" href="//pypi.org">
+  <link rel="dns-prefetch" href="//search.maven.org">
 
-  <!-- Use the exact Tailwind Play CDN tag (no crossorigin/importance/defer) -->
+  
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
@@ -39,6 +45,8 @@
       <div class="font-semibold tracking-wide">Shortcuts</div>
       <div>Ctrl+1 Google, Ctrl+2 Bing, Ctrl+3 Yahoo</div>
       <div>Ctrl+4 Perplexity, Ctrl+0 DuckDuckGo</div>
+      <div>Ctrl+5 Stack Overflow, Ctrl+6 GitHub Code</div>
+      <div>Ctrl+7 MDN, Ctrl+8 npm, Ctrl+9 PyPI, Ctrl+M Maven</div>
     </div>
   </div>
 
@@ -107,6 +115,44 @@
         badgeColor: 'bg-emerald-400',
         hint: 'Ctrl+4',
         buildUrl: q => `https://www.perplexity.ai/search?q=${encodeURIComponent(q)}`
+      },
+
+      // New engines
+      stackoverflow: {
+        name: 'Stack Overflow',
+        badgeColor: 'bg-orange-400',
+        hint: 'Ctrl+5',
+        buildUrl: q => `https://stackoverflow.com/search?q=${encodeURIComponent(q)}`
+      },
+      github_code: {
+        name: 'GitHub Code',
+        badgeColor: 'bg-zinc-300',
+        hint: 'Ctrl+6',
+        buildUrl: q => `https://github.com/search?q=${encodeURIComponent(q)}&type=code`
+      },
+      mdn: {
+        name: 'MDN Web Docs',
+        badgeColor: 'bg-teal-400',
+        hint: 'Ctrl+7',
+        buildUrl: q => `https://developer.mozilla.org/en-US/search?q=${encodeURIComponent(q)}`
+      },
+      npm: {
+        name: 'npm',
+        badgeColor: 'bg-rose-500',
+        hint: 'Ctrl+8',
+        buildUrl: q => `https://www.npmjs.com/search?q=${encodeURIComponent(q)}`
+      },
+      pypi: {
+        name: 'PyPI',
+        badgeColor: 'bg-blue-500',
+        hint: 'Ctrl+9',
+        buildUrl: q => `https://pypi.org/search/?q=${encodeURIComponent(q)}`
+      },
+      maven: {
+        name: 'Maven Central',
+        badgeColor: 'bg-lime-400',
+        hint: 'Ctrl+M',
+        buildUrl: q => `https://search.maven.org/search?q=${encodeURIComponent(q)}`
       }
     };
 
@@ -120,7 +166,7 @@
     let engineKey = localStorage.getItem('engineKey') || defaultEngineKey;
 
     function setEngine(key) {
-      if (!ENGINES[key] || engineKey === key) return; // avoid redundant work
+      if (!ENGINES[key] || engineKey === key) return;
       engineKey = key;
       localStorage.setItem('engineKey', engineKey);
       renderEngineBadge();
@@ -148,12 +194,18 @@
     document.addEventListener('keydown', (ev) => {
       const use = (ev.ctrlKey || ev.altKey) && !ev.shiftKey && !ev.metaKey;
       if (!use) return;
-      const key = ev.key;
+      const key = ev.key.toLowerCase();
       if (key === '0') { setEngine('duck'); ev.preventDefault(); }
       else if (key === '1') { setEngine('google'); ev.preventDefault(); }
       else if (key === '2') { setEngine('bing'); ev.preventDefault(); }
       else if (key === '3') { setEngine('yahoo'); ev.preventDefault(); }
       else if (key === '4') { setEngine('perplexity'); ev.preventDefault(); }
+      else if (key === '5') { setEngine('stackoverflow'); ev.preventDefault(); }
+      else if (key === '6') { setEngine('github_code'); ev.preventDefault(); }
+      else if (key === '7') { setEngine('mdn'); ev.preventDefault(); }
+      else if (key === '8') { setEngine('npm'); ev.preventDefault(); }
+      else if (key === '9') { setEngine('pypi'); ev.preventDefault(); }
+      else if (key === 'm') { setEngine('maven'); ev.preventDefault(); }
     });
 
     window.addEventListener('load', () => {
@@ -223,7 +275,7 @@
       aodEl.appendChild(frag);
     }
 
-    // Single delegated handler instead of per-item listeners (less memory, fewer closures)
+    
     aodEl.addEventListener('contextmenu', (ev) => {
       const target = ev.target.closest('a[data-idx]');
       if (!target) return;
