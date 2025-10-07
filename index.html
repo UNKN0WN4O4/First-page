@@ -22,6 +22,7 @@
   <link rel="dns-prefetch" href="//www.npmjs.com">
   <link rel="dns-prefetch" href="//pypi.org">
   <link rel="dns-prefetch" href="//search.maven.org">
+  <link rel="dns-prefetch" href="//chat.openai.com">
 
   
   <script src="https://cdn.tailwindcss.com"></script>
@@ -43,8 +44,8 @@
   <div class="fixed top-4 left-4 text-xs text-slate-300/80">
     <div class="bg-slate-800/60 ring-1 ring-white/10 backdrop-blur px-3 py-2 rounded-lg shadow">
       <div class="font-semibold tracking-wide">Shortcuts</div>
-      <div>Ctrl+1 Google, Ctrl+2 Bing, Ctrl+3 Yahoo</div>
-      <div>Ctrl+4 Perplexity, Ctrl+0 DuckDuckGo</div>
+      <div>Ctrl+0 DuckDuckGo, Ctrl+1 Google , Ctrl+2 Bing</div>
+      <div>Ctrl+3 Yahoo , Ctrl+4 Perplexity , Ctrl+` ChatGPT</div>
       <div>Ctrl+5 Stack Overflow, Ctrl+6 GitHub Code</div>
       <div>Ctrl+7 MDN, Ctrl+8 npm, Ctrl+9 PyPI, Ctrl+M Maven</div>
     </div>
@@ -54,7 +55,7 @@
     <div class="max-w-3xl w-full text-center">
       <h1 class="text-5xl sm:text-6xl font-extrabold tracking-tight">
         <span class="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 via-violet-400 to-cyan-300 drop-shadow">
-          UNKNOWN PAGE
+          UNKNOWN PAGES
         </span>
       </h1>
 
@@ -153,6 +154,12 @@
         badgeColor: 'bg-lime-400',
         hint: 'Ctrl+M',
         buildUrl: q => `https://search.maven.org/search?q=${encodeURIComponent(q)}`
+      },
+      chatgpt: {
+        name: 'ChatGPT',
+        badgeColor: 'bg-green-400',
+        hint: 'Ctrl+`',
+        buildUrl: q => `https://chat.openai.com/?q=${encodeURIComponent(q)}`
       }
     };
 
@@ -170,6 +177,8 @@
       engineKey = key;
       localStorage.setItem('engineKey', engineKey);
       renderEngineBadge();
+      const e = ENGINES[engineKey];
+      if (e) showToast(`${e.name} selected`);
     }
 
     function renderEngineBadge() {
@@ -192,9 +201,12 @@
     });
 
     document.addEventListener('keydown', (ev) => {
-      const use = (ev.ctrlKey || ev.altKey) && !ev.shiftKey && !ev.metaKey;
+ 
+      const use = (ev.ctrlKey || ev.altKey || ev.metaKey) && !ev.shiftKey;
       if (!use) return;
-      const key = ev.key.toLowerCase();
+
+      const key = (ev.key || '').toLowerCase();
+
       if (key === '0') { setEngine('duck'); ev.preventDefault(); }
       else if (key === '1') { setEngine('google'); ev.preventDefault(); }
       else if (key === '2') { setEngine('bing'); ev.preventDefault(); }
@@ -206,7 +218,21 @@
       else if (key === '8') { setEngine('npm'); ev.preventDefault(); }
       else if (key === '9') { setEngine('pypi'); ev.preventDefault(); }
       else if (key === 'm') { setEngine('maven'); ev.preventDefault(); }
+      else if (key === '`' || ev.code === 'Backquote') { setEngine('chatgpt'); ev.preventDefault(); }
     });
+
+    function showToast(text, ms = 1600) {
+      const t = document.getElementById('toast');
+      if (!t) return;
+      t.textContent = text;
+      t.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+      t.classList.add('opacity-100', 'scale-100');
+      if (t._timeout) clearTimeout(t._timeout);
+      t._timeout = setTimeout(() => {
+        t.classList.remove('opacity-100', 'scale-100');
+        t.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+      }, ms);
+    }
 
     window.addEventListener('load', () => {
       renderEngineBadge();
@@ -311,5 +337,11 @@
       renderAOD();
     });
   </script>
+  
+  <div id="toast" role="status" aria-live="polite"
+       class="fixed inset-x-0 bottom-6 z-50 pointer-events-none flex justify-center opacity-0 scale-95 transition transform duration-200">
+    <div class="pointer-events-auto bg-slate-800/80 text-slate-100 px-6 py-3 rounded-lg shadow-lg ring-1 ring-white/10">
+    </div>
+  </div>
 </body>
 </html>
