@@ -14,6 +14,11 @@ Add the extension
 
 ->[New tab redirect](https://chromewebstore.google.com/detail/new-tab-redirect/icpgjfneehieebagbmdbhnlpiopdcmna)
 
+
+Or use this
+
+->[TAB Redirect](https://github.com/UNKN0WN4O4/New-Tab-)
+
 Step 3:-
 
 Add this URL to extension https://unkn0wn4o4.github.io/First-page/
