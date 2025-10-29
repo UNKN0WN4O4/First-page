@@ -201,6 +201,28 @@
     });
 
     document.addEventListener('keydown', (ev) => {
+      
+      if (ev.key === '/' && !ev.ctrlKey && !ev.altKey && !ev.metaKey) {
+        const active = document.activeElement;
+        const tag = active && active.tagName;
+        const isEditable = !!(active && (
+          tag === 'INPUT' || tag === 'TEXTAREA' || active.isContentEditable
+        ));
+        if (!isEditable) {
+          ev.preventDefault();
+          queryEl.focus({ preventScroll: true });
+          
+          try {
+            const len = queryEl.value.length;
+            queryEl.setSelectionRange(len, len);
+          } catch (e) {
+           
+          }
+        }
+      }
+    });
+
+    document.addEventListener('keydown', (ev) => {
  
       const use = (ev.ctrlKey || ev.altKey || ev.metaKey) && !ev.shiftKey;
       if (!use) return;
