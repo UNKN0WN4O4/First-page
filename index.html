@@ -208,7 +208,18 @@
     });
 
     document.addEventListener('keydown', (ev) => {
- 
+     
+      if (ev.key === '/' && !ev.ctrlKey && !ev.altKey && !ev.metaKey && !ev.shiftKey) {
+        const active = document.activeElement;
+        const tag = active && active.tagName;
+        const isTyping = active && (tag === 'INPUT' || tag === 'TEXTAREA' || active.isContentEditable);
+        if (!isTyping) {
+          ev.preventDefault();
+          queryEl.focus({ preventScroll: true });
+          return;
+        }
+      }
+
       const use = (ev.ctrlKey || ev.altKey || ev.metaKey) && !ev.shiftKey;
       if (!use) return;
 
