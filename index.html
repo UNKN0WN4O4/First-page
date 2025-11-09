@@ -23,6 +23,7 @@
   <link rel="dns-prefetch" href="//pypi.org">
   <link rel="dns-prefetch" href="//search.maven.org">
   <link rel="dns-prefetch" href="//chat.openai.com">
+  <link rel="dns-prefetch" href="//www.youtube.com">
 
   
   <script src="https://cdn.tailwindcss.com"></script>
@@ -43,10 +44,10 @@
 
   <div class="fixed top-4 left-4 text-xs text-slate-300/80">
     <div class="bg-slate-800/60 ring-1 ring-white/10 backdrop-blur px-3 py-2 rounded-lg shadow">
-      <div class="font-semibold tracking-wide">---------------------Shortcuts--------------------</div>
+      <div class="font-semibold tracking-wide">---------------------Shortcuts:--------------------</div>
       <div>[ Ctrl+` ChatGPT , Ctrl+0 DuckDuckGo , Ctrl+1 Google , </div>
       <div>Ctrl+2 Bing , Ctrl+3 Yahoo , Ctrl+4 Perplexity , </div>
-      <div>Ctrl+5 Stack Overflow , Ctrl+6 GitHub Code</div>
+      <div>Ctrl+5 Stack Overflow , Ctrl+6 GitHub Code, Ctrl+Y YouTube </div>
       <div>Ctrl+7 MDN , Ctrl+8 npm , Ctrl+9 PyPI , Ctrl+M Maven ]</div>
     </div>
   </div>
@@ -155,6 +156,12 @@
         hint: 'Ctrl+M',
         buildUrl: q => `https://search.maven.org/search?q=${encodeURIComponent(q)}`
       },
+      youtube: {
+        name: 'YouTube',
+        badgeColor: 'bg-red-500',
+        hint: 'Ctrl+Y',
+        buildUrl: q => `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`
+      },
       chatgpt: {
         name: 'ChatGPT',
         badgeColor: 'bg-green-400',
@@ -201,28 +208,6 @@
     });
 
     document.addEventListener('keydown', (ev) => {
-      
-      if (ev.key === '/' && !ev.ctrlKey && !ev.altKey && !ev.metaKey) {
-        const active = document.activeElement;
-        const tag = active && active.tagName;
-        const isEditable = !!(active && (
-          tag === 'INPUT' || tag === 'TEXTAREA' || active.isContentEditable
-        ));
-        if (!isEditable) {
-          ev.preventDefault();
-          queryEl.focus({ preventScroll: true });
-          
-          try {
-            const len = queryEl.value.length;
-            queryEl.setSelectionRange(len, len);
-          } catch (e) {
-           
-          }
-        }
-      }
-    });
-
-    document.addEventListener('keydown', (ev) => {
  
       const use = (ev.ctrlKey || ev.altKey || ev.metaKey) && !ev.shiftKey;
       if (!use) return;
@@ -240,6 +225,7 @@
       else if (key === '8') { setEngine('npm'); ev.preventDefault(); }
       else if (key === '9') { setEngine('pypi'); ev.preventDefault(); }
       else if (key === 'm') { setEngine('maven'); ev.preventDefault(); }
+      else if (key === 'y') { setEngine('youtube'); ev.preventDefault(); }
       else if (key === '`' || ev.code === 'Backquote') { setEngine('chatgpt'); ev.preventDefault(); }
     });
 
@@ -367,6 +353,5 @@
   </div>
 </body>
 </html>
-
 
 
