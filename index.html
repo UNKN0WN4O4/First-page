@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <title>UNKNOWN PAGE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="dark light" />
 
-  
+
   <link rel="preconnect" href="https://cdn.tailwindcss.com">
   <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
 
@@ -25,18 +26,65 @@
   <link rel="dns-prefetch" href="//chat.openai.com">
   <link rel="dns-prefetch" href="//www.youtube.com">
 
-  
+
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    .fade { transition: all 200ms ease; }
+    .fade {
+      transition: all 200ms ease;
+    }
+
+    @keyframes vertical-scroll {
+      0% {
+        transform: translateY(0);
+      }
+
+      100% {
+        transform: translateY(-50%);
+      }
+    }
+
+    .animate-vertical-scroll {
+      animation: vertical-scroll 30s linear infinite;
+    }
+
+    .hover\:pause:hover {
+      animation-play-state: paused;
+    }
+
+    /* Custom Scrollbar */
+    .scrollbar-thin {
+      scrollbar-width: thin;
+      scrollbar-color: rgb(71 85 105) transparent;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    .scrollbar-track-transparent::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .scrollbar-thumb-slate-600::-webkit-scrollbar-thumb {
+      background-color: rgb(71 85 105);
+      border-radius: 3px;
+    }
+
+    .scrollbar-thumb-slate-600::-webkit-scrollbar-thumb:hover {
+      background-color: rgb(51 65 85);
+    }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 antialiased relative">
+
+<body
+  class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 antialiased relative">
   <button id="addSiteBtn"
     class="fade fixed top-4 right-4 inline-flex items-center gap-2 rounded-full bg-slate-700/60 hover:bg-slate-600/70 px-4 py-2 shadow-lg ring-1 ring-white/10 backdrop-blur-md"
     title="Add site to Always On Display">
-    <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-500 text-white text-lg font-bold">+</span>
+    <span
+      class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-500 text-white text-lg font-bold">+</span>
     <span class="hidden sm:inline text-sm">Add</span>
   </button>
 
@@ -55,22 +103,17 @@
   <main class="min-h-screen w-full flex items-center justify-center px-4">
     <div class="max-w-3xl w-full text-center">
       <h1 class="text-5xl sm:text-6xl font-extrabold tracking-tight">
-        <span class="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 via-violet-400 to-cyan-300 drop-shadow">
+        <span
+          class="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 via-violet-400 to-cyan-300 drop-shadow">
           UNKNOWN PAGES
         </span>
       </h1>
 
       <div class="mt-8 mx-auto w-full max-w-2xl">
         <form id="searchForm" autocomplete="off" class="relative">
-          <input
-            id="query"
-            type="text"
-            placeholder="Search the web..."
-            inputmode="search"
-            enterkeyhint="search"
+          <input id="query" type="text" placeholder="Search the web..." inputmode="search" enterkeyhint="search"
             spellcheck="false"
-            class="w-full rounded-full bg-slate-800/70 focus:bg-slate-800 text-slate-100 placeholder-slate-400 px-6 pr-36 py-4 text-lg shadow-2xl outline-none ring-1 ring-white/10 focus:ring-2 focus:ring-violet-400/60 backdrop-blur fade"
-          />
+            class="w-full rounded-full bg-slate-800/70 focus:bg-slate-800 text-slate-100 placeholder-slate-400 px-6 pr-36 py-4 text-lg shadow-2xl outline-none ring-1 ring-white/10 focus:ring-2 focus:ring-violet-400/60 backdrop-blur fade" />
           <div class="absolute right-2 top-1/2 -translate-y-1/2">
             <span id="engineBadge"
               class="fade inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-medium bg-amber-500 text-slate-900 shadow ring-1 ring-white/10">
@@ -81,7 +124,7 @@
         </form>
 
         <div class="pointer-events-none absolute inset-0 -z-10 blur-3xl opacity-30"
-             style="background: radial-gradient(30rem 15rem at 50% 0%, rgba(139,92,246,.3), transparent 60%);"></div>
+          style="background: radial-gradient(30rem 15rem at 50% 0%, rgba(139,92,246,.3), transparent 60%);"></div>
       </div>
     </div>
   </main>
@@ -119,7 +162,7 @@
         buildUrl: q => `https://www.perplexity.ai/search?q=${encodeURIComponent(q)}`
       },
 
-      // New engines
+
       stackoverflow: {
         name: 'Stack Overflow',
         badgeColor: 'bg-orange-400',
@@ -208,7 +251,7 @@
     });
 
     document.addEventListener('keydown', (ev) => {
-     
+
       if (ev.key === '/' && !ev.ctrlKey && !ev.altKey && !ev.metaKey && !ev.shiftKey) {
         const active = document.activeElement;
         const tag = active && active.tagName;
@@ -320,7 +363,7 @@
       aodEl.appendChild(frag);
     }
 
-    
+
     aodEl.addEventListener('contextmenu', (ev) => {
       const target = ev.target.closest('a[data-idx]');
       if (!target) return;
@@ -356,13 +399,381 @@
       renderAOD();
     });
   </script>
-  
+
   <div id="toast" role="status" aria-live="polite"
-       class="fixed inset-x-0 bottom-6 z-50 pointer-events-none flex justify-center opacity-0 scale-95 transition transform duration-200">
+    class="fixed inset-x-0 bottom-6 z-50 pointer-events-none flex justify-center opacity-0 scale-95 transition transform duration-200">
     <div class="pointer-events-auto bg-slate-800/80 text-slate-100 px-6 py-3 rounded-lg shadow-lg ring-1 ring-white/10">
     </div>
   </div>
+
+  <button id="newsToggleBtn"
+    class="fade fixed bottom-4 right-4 inline-flex items-center gap-2 rounded-full bg-slate-700/60 hover:bg-slate-600/70 px-4 py-3 shadow-lg ring-1 ring-white/10 backdrop-blur-md z-50 group"
+    title="Toggle Local News">
+    <span
+      class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-indigo-500 text-white text-sm">📰</span>
+    <span class="hidden sm:inline text-sm font-medium text-slate-200">Local News</span>
+  </button>
+
+
+  <div id="newsWidget"
+    class="fixed bottom-4 left-4 w-80 transform transition-all duration-300 translate-y-4 opacity-0 pointer-events-none z-40">
+    <div class="bg-slate-800/90 ring-1 ring-white/10 backdrop-blur-md px-4 py-3 rounded-xl shadow-2xl">
+      <div class="flex items-center justify-between mb-2 border-b border-white/10 pb-2">
+        <h3 class="font-bold text-slate-100 flex items-center gap-2">
+          <span class="text-indigo-400">📍</span> <span id="locationName">Locating...</span>
+        </h3>
+        <button id="refreshNewsBtn" class="text-xs text-slate-400 hover:text-white transition"
+          title="Refresh">↻</button>
+      </div>
+      <div id="newsContent"
+        class="max-h-60 overflow-y-auto text-sm text-slate-300 scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent pr-1 relative">
+        <div class="animate-pulse space-y-2">
+          <div class="h-4 bg-slate-700 rounded w-3/4"></div>
+          <div class="h-4 bg-slate-700 rounded w-full"></div>
+          <div class="h-4 bg-slate-700 rounded w-5/6"></div>
+        </div>
+      </div>
+      <div class="mt-2 pt-2 border-t border-white/5 text-[10px] text-slate-500 text-center">
+        Powered by simulated local data for privacy
+      </div>
+    </div>
+  </div>
+
+
+  <dialog id="privacyModal"
+    class="bg-transparent p-0 backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95">
+    <div
+      class="bg-slate-900 ring-1 ring-white/10 text-slate-100 rounded-2xl shadow-2xl max-w-sm w-full mx-4 overflow-hidden">
+      <div class="bg-indigo-600/20 px-6 py-4 border-b border-white/5 flex items-center gap-3">
+        <span class="text-2xl">🛡️</span>
+        <h2 class="text-lg font-bold">Privacy Check</h2>
+      </div>
+      <div class="p-6 space-y-4">
+        <p class="text-slate-300 text-sm leading-relaxed">
+          To show you local news, this widget needs access to your
+          <strong class="text-indigo-400">approximate location</strong>.
+        </p>
+        <div class="bg-slate-800/50 rounded-lg p-3 text-xs text-slate-400 border border-white/5">
+          <ul class="list-disc list-inside space-y-1">
+            <li>Your location is processed locally.</li>
+            <li>We do not store your coordinates.</li>
+            <li>Headlines are fetched based on city name only.</li>
+          </ul>
+        </div>
+        <p class="text-slate-300 text-sm">
+          Do you want to enable the Local News widget?
+        </p>
+        <div class="flex gap-3 pt-2">
+          <button id="denyPrivacyBtn"
+            class="flex-1 px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium transition">
+            No, keep it off
+          </button>
+          <button id="acceptPrivacyBtn"
+            class="flex-1 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium shadow-lg shadow-indigo-500/20 transition">
+            Yes, Enable
+          </button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+
+    (function () {
+      const toggleBtn = document.getElementById('newsToggleBtn');
+      const widget = document.getElementById('newsWidget');
+      const locationNameEl = document.getElementById('locationName');
+      const newsContentEl = document.getElementById('newsContent');
+      const privacyModal = document.getElementById('privacyModal');
+      const acceptBtn = document.getElementById('acceptPrivacyBtn');
+      const denyBtn = document.getElementById('denyPrivacyBtn');
+      const refreshBtn = document.getElementById('refreshNewsBtn');
+
+      let isWidgetVisible = localStorage.getItem('briefingEnabled') === 'true';
+
+      const CACHE_DURATION = {
+        LOCATION: 24 * 60 * 60 * 1000, // 24 hours
+        WEATHER: 30 * 60 * 1000,       // 30 minutes
+        NEWS: 30 * 60 * 1000           // 30 minutes
+      };
+
+      async function getWithCache(key, apiCallFn, validDurationMs) {
+        try {
+          const cached = localStorage.getItem(key);
+          if (cached) {
+            const { timestamp, data } = JSON.parse(cached);
+            if (Date.now() - timestamp < validDurationMs) {
+              return data;
+            }
+          }
+        } catch (e) { console.warn("Cache read error", e); }
+
+        try {
+          const data = await apiCallFn();
+          localStorage.setItem(key, JSON.stringify({ timestamp: Date.now(), data }));
+          return data;
+        } catch (e) {
+          throw e;
+        }
+      }
+
+
+      if (isWidgetVisible) {
+        showWidgetUI();
+        fetchBriefing();
+      }
+
+
+      toggleBtn.addEventListener('click', () => {
+        if (isWidgetVisible) {
+          hideWidget();
+        } else {
+          privacyModal.showModal();
+        }
+      });
+
+
+      document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && (e.key === 'b' || e.key === 'B')) {
+          e.preventDefault();
+          if (isWidgetVisible) {
+            hideWidget();
+          } else {
+
+            privacyModal.showModal();
+          }
+        }
+      });
+
+      acceptBtn.addEventListener('click', () => {
+        privacyModal.close();
+        enableWidget();
+      });
+
+      denyBtn.addEventListener('click', () => {
+        privacyModal.close();
+      });
+
+      privacyModal.addEventListener('click', (e) => {
+        if (e.target === privacyModal) privacyModal.close();
+      });
+
+      function hideWidget() {
+        isWidgetVisible = false;
+        localStorage.setItem('briefingEnabled', 'false');
+        widget.classList.add('translate-y-4', 'opacity-0', 'pointer-events-none');
+        widget.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+        toggleBtn.querySelector('span:nth-child(2)').textContent = "briefing";
+        toggleBtn.classList.remove('ring-indigo-500', 'bg-slate-800');
+        toggleBtn.classList.add('bg-slate-700/60');
+      }
+
+      function showWidgetUI() {
+        isWidgetVisible = true;
+        localStorage.setItem('briefingEnabled', 'true');
+        widget.classList.remove('translate-y-4', 'opacity-0', 'pointer-events-none');
+        widget.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+        toggleBtn.classList.add('ring-indigo-500', 'bg-slate-800');
+        toggleBtn.classList.remove('bg-slate-700/60');
+        toggleBtn.querySelector('span:nth-child(2)').textContent = "Hide Briefing";
+      }
+
+      function enableWidget() {
+        showWidgetUI();
+        fetchBriefing();
+      }
+
+      refreshBtn.addEventListener('click', () => {
+        locationNameEl.textContent = "Updating...";
+        newsContentEl.innerHTML = '<div class="animate-pulse space-y-2"><div class="h-4 bg-slate-700 rounded w-3/4"></div><div class="h-4 bg-slate-700 rounded w-full"></div></div>';
+        fetchBriefing();
+      });
+
+      function fetchBriefing() {
+        if (!navigator.geolocation) {
+          locationNameEl.textContent = "Loc Disabled";
+          renderNews([], null);
+          return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+            try {
+
+              const [locationData, weather] = await Promise.all([
+                fetchLocationInfo(latitude, longitude),
+                fetchWeather(latitude, longitude)
+              ]);
+
+              const { city, country } = locationData;
+
+
+              locationNameEl.innerHTML = `${city}, ${country} <span class="text-amber-400 ml-2">${weather.icon} ${weather.temp}°C</span>`;
+
+
+              await fetchNews(city, country);
+
+            } catch (err) {
+              console.error("Briefing Error:", err);
+              locationNameEl.textContent = "Error";
+              renderNews([{ title: "Could not load briefing data.", time: "System" }]);
+            }
+          },
+          (err) => {
+            console.error("Geo Error:", err);
+            locationNameEl.textContent = "Permission Denied";
+            renderNews([{ title: "Please enable location to see your local briefing.", time: "System" }]);
+          },
+          { timeout: 10000 }
+        );
+      }
+
+      async function fetchLocationInfo(lat, lon) {
+        return getWithCache(`briefing_loc_${lat.toFixed(2)}_${lon.toFixed(2)}`, async () => {
+          try {
+            const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`);
+            const data = await res.json();
+            return {
+              city: data.city || data.locality || "Unknown City",
+              country: data.countryName || "Unknown Country"
+            };
+          } catch {
+            return { city: "Unknown City", country: "Unknown Country" };
+          }
+        }, CACHE_DURATION.LOCATION);
+      }
+
+      async function fetchWeather(lat, lon) {
+        return getWithCache(`briefing_weather_${lat.toFixed(2)}_${lon.toFixed(2)}`, async () => {
+          try {
+            const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+            const data = await res.json();
+            const w = data.current_weather;
+            return {
+              temp: Math.round(w.temperature),
+              icon: getWeatherIcon(w.weathercode)
+            };
+          } catch {
+            return { temp: "--", icon: "❓" };
+          }
+        }, CACHE_DURATION.WEATHER);
+      }
+
+      function getWeatherIcon(code) {
+        if (code === 0) return "☀️";
+        if (code >= 1 && code <= 3) return "⛅";
+        if (code >= 45 && code <= 48) return "🌫️";
+        if (code >= 51 && code <= 67) return "☔";
+        if (code >= 71 && code <= 77) return "❄️";
+        if (code >= 80 && code <= 82) return "🌧️";
+        if (code >= 95) return "⚡";
+        return "🌈";
+      }
+
+      async function fetchNews(city, country) {
+        const fetchRSS = async (query) => {
+          return getWithCache(`briefing_news_${query}`, async () => {
+            try {
+              const rssUrl = `https://www.bing.com/news/search?q=${encodeURIComponent(query)}&format=rss`;
+              const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+              const data = await res.json();
+              return (data.status === 'ok' && data.items) ? data.items : [];
+            } catch (e) {
+              console.warn(`Failed to fetch news for ${query}`, e);
+              return [];
+            }
+          }, CACHE_DURATION.NEWS);
+        };
+
+        try {
+          const [cityNews, countryNews] = await Promise.all([
+            fetchRSS(city),
+            fetchRSS(country)
+          ]);
+
+          let allItems = [...cityNews, ...countryNews];
+          const now = Date.now();
+          const cutoffTime = now - (20 * 24 * 60 * 60 * 1000);
+
+
+          const uniqueItemsMap = new Map();
+
+          for (const item of allItems) {
+            const pubDateMs = new Date(item.pubDate).getTime();
+            if (pubDateMs >= cutoffTime) {
+              const key = item.link || item.title;
+              if (!uniqueItemsMap.has(key)) {
+                uniqueItemsMap.set(key, item);
+              }
+            }
+          }
+
+          const uniqueItems = Array.from(uniqueItemsMap.values());
+          uniqueItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+          const finalItems = uniqueItems.slice(0, 30);
+
+          if (finalItems.length > 0) {
+            const headlines = finalItems.map(item => ({
+              title: item.title,
+              link: item.link,
+              time: timeAgo(item.pubDate)
+            }));
+            renderNews(headlines);
+          } else {
+            renderNews([{ title: `No recent news found for ${city} or ${country}.`, time: "System" }]);
+          }
+
+        } catch (e) {
+          console.error(e);
+          renderNews([{ title: "Failed to load news feed.", time: "Error" }]);
+        }
+      }
+
+      function timeAgo(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffMs = now - date;
+        const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
+        if (diffHrs < 1) return "Just now";
+        if (diffHrs < 24) return `${diffHrs}h ago`;
+        return `${Math.floor(diffHrs / 24)}d ago`;
+      }
+
+      function renderNews(items) {
+        const footer = widget.querySelector('.text-\\[10px\\]');
+        if (footer) footer.innerHTML = 'Powered by <span class="text-amber-400">Open-Meteo</span> & <span class="text-indigo-400">Bing News</span>';
+
+        if (!items || items.length === 0) {
+          newsContentEl.innerHTML = '<div class="text-slate-500 italic">No news available.</div>';
+          return;
+        }
+
+        const contentHtml = items.map(item => `
+          <div class="group relative">
+            <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="block">
+              <p class="text-slate-200 group-hover:text-indigo-300 transition-colors leading-snug pr-0 text-xs sm:text-sm">
+                 ${item.title}
+              </p>
+              <span class="text-[10px] text-slate-500 font-mono inline-block mt-0.5">${item.time}</span>
+            </a>
+            <div class="h-px bg-white/5 my-2"></div>
+          </div>
+        `).join('');
+
+        newsContentEl.innerHTML = `
+          <div class="animate-vertical-scroll hover:pause" style="animation-duration: ${Math.max(30, items.length * 2)}s">
+            <div>${contentHtml}</div>
+            <div>${contentHtml}</div>
+          </div>
+        `;
+      }
+
+    })();
+  </script>
 </body>
+
 </html>
+
 
 
